@@ -17,7 +17,7 @@ Authentication is handled via **Token-based Security** (e.g., JWT).
 // Sets the base URL path for all endpoints in this controller to "/data"
 @RequestMapping("/data")
 public class DataController {
-
+```java
     // Automatically injects an instance of DataService into this controller
     @Autowired
     private DataService dataService;
@@ -39,7 +39,7 @@ public class DataController {
         return ResponseEntity.ok(dataService.getAllFinancialData(userId));
     }
 }
-
+```
 
 ## 1. Data Collection Service
 
