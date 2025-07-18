@@ -11,6 +11,35 @@ This repository contains two independently deployable microservices built using 
 Authentication is handled via **Token-based Security** (e.g., JWT).
 
 ---
+// Marks this class as a REST controller, which means it will handle HTTP requests and return JSON responses
+@RestController
+
+// Sets the base URL path for all endpoints in this controller to "/data"
+@RequestMapping("/data")
+public class DataController {
+
+    // Automatically injects an instance of DataService into this controller
+    @Autowired
+    private DataService dataService;
+
+    // Maps HTTP GET requests to "/data/{userId}" to this method
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<FinancialData>> getAllData(
+            // Binds the value of {userId} from the URL to this method parameter
+            @PathVariable String userId,
+
+            // Extracts the "Authorization" header from the HTTP request
+            @RequestHeader("Authorization") String token) {
+
+        // Validates the token; if it doesn't match the expected dummy token, return 401 Unauthorized
+        if (!token.equals("Bearer dummy-auth-token")) 
+            return ResponseEntity.status(401).build();
+
+        // If token is valid, fetch all financial data for the user and return it with 200 OK status
+        return ResponseEntity.ok(dataService.getAllFinancialData(userId));
+    }
+}
+
 
 ## 1. Data Collection Service
 
